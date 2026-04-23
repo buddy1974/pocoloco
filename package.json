@@ -1,0 +1,22 @@
+{
+  "name": "pocoloco",
+  "private": true,
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "bcryptjs",
+      "@clerk/shared",
+      "esbuild"
+    ]
+  },
+  "scripts": {
+    "web:dev": "pnpm --filter web dev",
+    "web:build": "pnpm --filter web build",
+    "web:typecheck": "pnpm --filter web exec tsc --noEmit",
+    "db:generate": "pnpm --filter web exec drizzle-kit generate",
+    "db:push": "pnpm --filter web exec drizzle-kit push",
+    "db:seed": "pnpm --filter web exec tsx scripts/seed.ts",
+    "db:studio": "pnpm --filter web exec drizzle-kit studio",
+    "preflight": "bash engines/scripts/preflight.sh",
+    "smoke": "bash engines/scripts/smoke-test.sh"
+  }
+}

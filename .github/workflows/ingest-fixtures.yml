@@ -1,0 +1,11 @@
+name: ingest-fixtures
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Placeholder — not yet implemented
+        run: echo "Routine ingest-fixtures is not yet implemented. Extend this workflow when ready."

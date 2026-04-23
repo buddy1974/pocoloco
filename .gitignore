@@ -1,0 +1,14 @@
+.env
+.env.local
+.env.production
+.env.*
+!env.template
+node_modules/
+.next/
+dist/
+data/*.json
+NEON-SYNC-FALLBACK.md
+NOTIFICATIONS-FALLBACK.md
+.DS_Store
+*.log
+pnpm-debug.log

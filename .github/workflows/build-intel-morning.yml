@@ -1,0 +1,36 @@
+name: Build Intel (Morning)
+on:
+  schedule:
+    - cron: '30 5 * * *'
+  workflow_dispatch:
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - name: Install Claude CLI
+        run: npm install -g @anthropic-ai/claude-code
+      - name: Run routine
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_MODEL: claude-sonnet-4-6
+          APIFOOTBALL_KEY: ${{ secrets.APIFOOTBALL_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ADMIN_CHAT_ID: ${{ secrets.TELEGRAM_ADMIN_CHAT_ID }}
+        run: |
+          claude --print \
+            --model claude-sonnet-4-6 \
+            --prompt-file engines/routines/system/build-intel.md
+      - name: Notify on failure
+        if: failure()
+        run: |
+          bash engines/scripts/telegram.sh \
+            "$TELEGRAM_ADMIN_CHAT_ID" \
+            "Pocoloco routine FAILED: build-intel-morning — check Actions"
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ADMIN_CHAT_ID: ${{ secrets.TELEGRAM_ADMIN_CHAT_ID }}
